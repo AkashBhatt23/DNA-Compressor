@@ -10,7 +10,7 @@ def run_pipeline(input_file, output_file, vocab_size):
     
   print("Running BPE Tokenization...")
   subprocess.run([
-      "./dnaBPE/bin/bpe.v6.exe", 
+      "./bin/bpe.v6.exe", 
       input_file, 
       bpe_output_base, 
       "fasta", 
