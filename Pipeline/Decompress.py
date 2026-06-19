@@ -70,13 +70,3 @@ def main():
   decompress_pipeline(args.input_file, args.output_file)
 
 main()
-
-files_to_delete = [
-    bin_file,
-    com,
-    vocab_file,
-]
-    
-for file in files_to_delete:
-    if os.path.exists(file):
-        os.remove(file)
