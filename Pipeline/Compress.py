@@ -6,7 +6,7 @@ import glob
   
 def run_pipeline(input_file, output_file, vocab_size):
   base_name = os.path.splitext(input_file)[0]
-  bpe_output_base = f"{base_name}_{vocab_size}"
+  bpe_output_base = f"{base_name}"
     
   print("Running BPE Tokenization...")
   subprocess.run([
@@ -28,6 +28,17 @@ def run_pipeline(input_file, output_file, vocab_size):
   vocab_file = vocab_files[0]
   bpe_file = bpe_files[0]
   temp_tokens = f"{base_name}_tokens.bin"
+
+  metadata = {
+  "original_filename": input_file,
+  "vocab_size": vocab_size,
+  "vocab_file": vocab_files[0],
+  "compressed_file": output_file,
+  "bin_file": temp_tokens
+  }
+
+  with open("compression_meta.json", "w") as f:
+    json.dump(metadata, f)
 
   def translate_bpe_to_ids(bpe_file, vocab_file, output_file):
     with open(vocab_file, 'r') as f:
@@ -52,7 +63,11 @@ def run_pipeline(input_file, output_file, vocab_size):
     output_file
   ]
 
+  print("Compressing...")
+
   subprocess.run(command)
+
+  print("Compression Successful!")
 
   original = os.path.getsize(input_file)
   compressed = os.path.getsize(output_file)
@@ -70,6 +85,7 @@ def main():
   run_pipeline(args.input_file, args.output_file,args.vocab)
 
 main()
+
 
 
 
